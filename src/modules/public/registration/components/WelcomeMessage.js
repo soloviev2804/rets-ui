@@ -15,16 +15,17 @@ const styles = theme => ({
     width: 250,
     heading: 250,
     objectFit: 'cover',
+    paddingBottom: '10px',
   },
 });
 
 const WelcomeMessage = ({ classes }) => {
   return (
     <Fragment>
-      <Typography variant="display1" gutterBottom className={classes.heading}>
-        Welcome To
-      </Typography>
       <img src="/images/logo.png" alt="app logo" className={classes.logo} />
+      <Typography variant="display1" gutterBottom className={classes.heading}>
+        Регистрация
+      </Typography>
     </Fragment>
   );
 };

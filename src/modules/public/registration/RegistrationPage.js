@@ -9,25 +9,42 @@ import Snackbar from '@material-ui/core/Snackbar';
 // API
 import { APP_TOKEN } from '../../../api/Constants';
 // Components
-import LoginForm from './components/LoginForm';
+import LoginForm from './components/RegistrationForm';
 import WelcomeMessage from './components/WelcomeMessage';
+import AuthenticationAPI from '../../../api/AuthenticationAPI';
 
 const Container = styled.section`
   display: flex;
   flex-direction: column;
   justify-content: center;
   align-items: center;
-  height: 100vh;
   background-color: #607d8b;
+  width: 100%;
+  height: auto;
+  overflow: scroll;
 `;
 
-class LoginPage extends Component {
+class RegistrationPage extends Component {
   isTokenSource = axios.CancelToken.source();
 
   state = {
     form: {
-      username: '',
-      password: '',
+      company: '',
+      address: '',
+      phone: '+7(  )   -  -  ',
+      link: '',
+      contact: '',
+      contactPhone: '',
+      contactEmail: '',
+      sector: '',
+      // service: '', // TODO хз
+      brand: '',
+      // products: '', // TODO
+      // countries: '',
+      // revenue: '',
+      // employersCount: '',
+      // exportPeriod: '',
+      // needRetcHelp: '',
     },
     isLoading: false,
     isSnackbarOpen: false,
@@ -41,6 +58,9 @@ class LoginPage extends Component {
   onHandleChangeForm = event => {
     const { form } = this.state;
     form[event.target.name] = event.target.value;
+    console.log('event.target;', event.target);
+    console.log('event.target.value;', event.target.value);
+    console.log('form', form);
     this.setState({ form });
   };
 
@@ -56,11 +76,24 @@ class LoginPage extends Component {
     }
     try {
       this.setState({ isLoading: true });
-      // const result = await AuthenticationAPI.onLogin({
-      //   cancelToken: this.isTokenSource.token,
-      //   username: form.username,
-      //   password: form.password,
-      // });
+      const result = await AuthenticationAPI.onLogin({
+        company: form.company,
+        address: form.address,
+        phone: form.phone,
+        link: form.link,
+        contact: form.contact,
+        contactPhone: form.contactPhone,
+        contactEmail: form.contactEmail,
+        sector: form.sector,
+        // service: form.service,
+        brand: form.brand,
+        // products: form.products,
+        // countries: form.countries,
+        // revenue: form.revenue,
+        // employersCount: form.employersCount,
+        // exportPeriod: form.exportPeriod,
+        // needRetcHelp: form.needRetcHelp,
+      });
       this.setState({ isLoading: false });
       APP_TOKEN.set({
         token: '',
@@ -114,8 +147,8 @@ class LoginPage extends Component {
   }
 }
 
-LoginPage.propTypes = {
+RegistrationPage.propTypes = {
   history: PropTypes.object, // React Router Injected
 };
 
-export default LoginPage;
+export default RegistrationPage;

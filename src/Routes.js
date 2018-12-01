@@ -9,19 +9,19 @@ import PageLoader from './modules/common/PageLoader';
 
 // Routes
 const AuthLayout = lazy(() => import('./modules/auth/layout/MainLayout'));
-const LoginPage = lazy(() => import('./modules/public/login/LoginPage'));
+const LoginPage = lazy(() => import('./modules/public/registration/RegistrationPage'));
 const NoMatchPage = lazy(() => import('./modules/not-found/NoMatchPage'));
 
 const Routes = () => {
   return (
     <Suspense fallback={<PageLoader />}>
       <Switch>
-        <Route exact path="/" render={() => <Redirect to="/login" />} />
+        <Route exact path="/" render={() => <Redirect to="/registration" />} />
         <Route
           exact
-          path="/login"
+          path="/registration"
           render={props => {
-            return APP_TOKEN.notEmpty ? <Redirect to="/auth" /> : <LoginPage {...props} />;
+            return <LoginPage {...props} />;
           }}
         />
         <Route
