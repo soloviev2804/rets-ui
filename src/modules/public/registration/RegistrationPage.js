@@ -16,11 +16,11 @@ import AuthenticationAPI from '../../../api/AuthenticationAPI';
 const Container = styled.section`
   display: flex;
   flex-direction: column;
+  height: 100vh;
   justify-content: center;
   align-items: center;
   background-color: #607d8b;
   width: 100%;
-  height: auto;
   overflow: scroll;
 `;
 

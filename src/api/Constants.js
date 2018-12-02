@@ -8,7 +8,6 @@ const KEY = `${ENV}-${PLATFORM}-${VERSION}`;
 // console.log('>>>>', KEY);
 export const API_URL = Config[KEY].API_URL;
 export const AUTH_URL = Config[KEY].AUTH_URL;
-export const API_CONSUMER = Config[KEY].AUTH_URL;
 
 // Helpers
 export const APP_TOKEN = {

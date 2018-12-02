@@ -9,13 +9,12 @@ const PARAMS = ({ methodType = 'GET' }) => ({
 });
 
 export default {
-  onLogin: async ({ cancelToken, ...payload }) => {
-    const URL = `${c.API_CONSUMER}/colleague/auth/login`;
+  onLogin: async payload => {
+    const URL = `${c.API_URL}/flowable-rest/service/runtime/process-instances`;
     try {
       const { data } = await axios(
         URL,
         Object.assign({}, PARAMS({ methodType: 'POST' }), {
-          cancelToken,
           data: payload,
         }),
       );
