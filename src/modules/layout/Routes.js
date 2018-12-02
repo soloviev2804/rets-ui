@@ -5,7 +5,7 @@ import { TransitionGroup, CSSTransition } from 'react-transition-group';
 import styled from 'styled-components';
 
 /* Auth Pages Starts Here */
-const UserPage = lazy(() => import('../user/UserPage'));
+const UserPage = lazy(() => import('../questionnaire/QuestionnairePage'));
 
 /* Auth Pages Ends Here */
 

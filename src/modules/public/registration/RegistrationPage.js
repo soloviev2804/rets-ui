@@ -9,17 +9,14 @@ import Snackbar from '@material-ui/core/Snackbar';
 // API
 import { APP_TOKEN } from '../../../api/Constants';
 // Components
-import LoginForm from './components/RegistrationForm';
+import RegistrationForm, { DECLINE_RETS } from './components/RegistrationForm';
 import WelcomeMessage from './components/WelcomeMessage';
 import AuthenticationAPI from '../../../api/AuthenticationAPI';
 
 const Container = styled.section`
-  display: flex;
   flex-direction: column;
-  height: 100vh;
   justify-content: center;
   align-items: center;
-  background-color: #607d8b;
   width: 100%;
   overflow: scroll;
 `;
@@ -34,17 +31,17 @@ class RegistrationPage extends Component {
       phone: '+7(  )   -  -  ',
       link: '',
       contact: '',
-      contactPhone: '',
+      // contactPhone: '',
       contactEmail: '',
       sector: '',
       // service: '', // TODO хз
-      brand: '',
+      // brand: '',
       // products: '', // TODO
       // countries: '',
       // revenue: '',
       // employersCount: '',
       // exportPeriod: '',
-      // needRetcHelp: '',
+      needRetcHelp: '',
     },
     isLoading: false,
     isSnackbarOpen: false,
@@ -58,8 +55,6 @@ class RegistrationPage extends Component {
   onHandleChangeForm = event => {
     const { form } = this.state;
     form[event.target.name] = event.target.value;
-    console.log('event.target;', event.target);
-    console.log('event.target.value;', event.target.value);
     console.log('form', form);
     this.setState({ form });
   };
@@ -75,6 +70,9 @@ class RegistrationPage extends Component {
       return;
     }
     try {
+      if (form.needRetcHelp === DECLINE_RETS) {
+        history.push('/end');
+      }
       this.setState({ isLoading: true });
       const result = await AuthenticationAPI.onLogin({
         company: form.company,
@@ -96,10 +94,10 @@ class RegistrationPage extends Component {
       });
       this.setState({ isLoading: false });
       APP_TOKEN.set({
-        token: '',
+        token: result,
         refreshToken: '',
       });
-      history.push('/auth');
+      history.push('/questionnaire');
     } catch (error) {
       if (axios.isCancel(error)) {
         // console.log('Request canceled', error.message);
@@ -125,7 +123,7 @@ class RegistrationPage extends Component {
     return (
       <Container>
         <WelcomeMessage />
-        <LoginForm
+        <RegistrationForm
           value={form}
           isLoading={isLoading}
           onChange={this.onHandleChangeForm}

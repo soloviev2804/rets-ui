@@ -14,6 +14,10 @@ import CircularProgress from '@material-ui/core/CircularProgress';
 import Input from '@material-ui/core/es/Input/Input';
 import InputLabel from '@material-ui/core/InputLabel';
 import FormControl from '@material-ui/core/FormControl';
+import FormLabel from '@material-ui/core/FormLabel';
+import RadioGroup from '@material-ui/core/RadioGroup';
+import FormControlLabel from '@material-ui/core/FormControlLabel';
+import Radio from '@material-ui/core/Radio';
 import FormattedInputs, { TextMaskCustom } from './FormattedInputs';
 
 const SECTORS = [
@@ -47,6 +51,8 @@ const SECTORS = [
   },
 ];
 
+export const DECLINE_RETS = 'Нет, не заинтересована';
+
 const styles = theme => ({
   container: {
     backgroundColor: '#fff',
@@ -76,6 +82,9 @@ const styles = theme => ({
     marginTop: '15px',
     width: '100%',
   },
+  formControl: {
+    marginTop: '15px',
+  },
 });
 
 const RegistrationForm = ({ value, isLoading, onChange, onSubmit, classes }) => {
@@ -94,6 +103,7 @@ const RegistrationForm = ({ value, isLoading, onChange, onSubmit, classes }) => 
       />
       <TextField
         label="Адрес"
+        placeholder="303509, Орловская область, Новосильский район с. Вяжи-Заверх"
         value={value.address}
         name="address"
         onChange={onChange}
@@ -124,6 +134,7 @@ const RegistrationForm = ({ value, isLoading, onChange, onSubmit, classes }) => 
       />
       <TextField
         label="Контактное лицо"
+        placeholder="Иванов Иван Иванович"
         value={value.contact}
         name="contact"
         onChange={onChange}
@@ -131,17 +142,6 @@ const RegistrationForm = ({ value, isLoading, onChange, onSubmit, classes }) => 
         fullWidth
         type="text"
       />
-      <FormControl className={classes.formControl}>
-        <InputLabel>Номер телефона</InputLabel>
-        <Input
-          value={value.contactPhone}
-          onChange={onChange}
-          id="contact-phone-input"
-          name="contactPhone"
-          inputComponent={TextMaskCustom}
-          className={classes.contactPhone}
-        />
-      </FormControl>
       <TextField
         label="Email"
         value={value.contactEmail}
@@ -167,15 +167,34 @@ const RegistrationForm = ({ value, isLoading, onChange, onSubmit, classes }) => 
           </MenuItem>
         ))}
       </TextField>
-      <TextField
-        label="Основной бренд(-ы)"
-        value={value.brand}
-        name="brand"
-        onChange={onChange}
-        margin="normal"
-        fullWidth
-        type="text"
-      />
+      <FormControl component="fieldset" className={classes.formControl}>
+        <FormLabel component="legend">
+          Заинтересована ли Ваша компания в получении поддержки в развитии экспорта от Российского
+          экспортного центра?
+        </FormLabel>
+        <RadioGroup
+          aria-label="Gender"
+          name="needRetcHelp"
+          onChange={onChange}
+          value={value.needRetcHelp}
+        >
+          <FormControlLabel
+            value="Да, заинтересована – даже если это предполагает софинансирование отдельных мероприятий"
+            control={<Radio />}
+            label="Да, заинтересована – даже если это предполагает софинансирование отдельных мероприятий"
+          />
+          <FormControlLabel
+            value="Да, заинтересована, если Российский экспортный центр покрывает большую часть расходов"
+            control={<Radio />}
+            label="Да, заинтересована, если Российский экспортный центр покрывает большую часть расходов"
+          />
+          <FormControlLabel
+            value={DECLINE_RETS}
+            control={<Radio />}
+            label={DECLINE_RETS}
+          />
+        </RadioGroup>
+      </FormControl>
       <Button
         onClick={onSubmit}
         variant="outlined"

@@ -6,9 +6,11 @@ import { Switch, Route, Redirect } from 'react-router-dom';
 import { APP_TOKEN } from './api/Constants';
 // Utils
 import PageLoader from './modules/common/PageLoader';
+import FinalPage from './modules/final/FinalPage';
+import CheckInProgressPage from './modules/check-in-progress/CheckInProgressPage';
 
 // Routes
-const AuthLayout = lazy(() => import('./modules/auth/layout/MainLayout'));
+const QuestionnairePage = lazy(() => import('./modules/questionnaire/QuestionnairePage'));
 const LoginPage = lazy(() => import('./modules/public/registration/RegistrationPage'));
 const NoMatchPage = lazy(() => import('./modules/not-found/NoMatchPage'));
 
@@ -25,10 +27,21 @@ const Routes = () => {
           }}
         />
         <Route
-          path="/auth"
+          path="/questionnaire"
           render={props => {
-            // return APP_TOKEN.notEmpty ? <AuthLayout {...props} /> : <Redirect to="/login" />;
-            return <AuthLayout {...props} />;
+            return <QuestionnairePage {...props} />;
+          }}
+        />
+        <Route
+          path="/end"
+          render={props => {
+            return <FinalPage {...props} />;
+          }}
+        />
+        <Route
+          path="/check-in-progress"
+          render={props => {
+            return <CheckInProgressPage {...props} />;
           }}
         />
         <Route component={NoMatchPage} />
