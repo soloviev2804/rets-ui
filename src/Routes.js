@@ -16,9 +16,9 @@ const NoMatchPage = lazy(() => import('./modules/not-found/NoMatchPage'));
 
 const Routes = () => {
   return (
-    <Suspense fallback={<PageLoader />}>
+    <Suspense fallback={<PageLoader/>}>
       <Switch>
-        <Route exact path="/" render={() => <Redirect to="/registration" />} />
+        <Route exact path="/" render={() => <Redirect to="/registration"/>}/>
         <Route
           exact
           path="/registration"
@@ -29,6 +29,7 @@ const Routes = () => {
         <Route
           path="/questionnaire"
           render={props => {
+            console.log('props', props);
             return <QuestionnairePage {...props} />;
           }}
         />
@@ -44,7 +45,7 @@ const Routes = () => {
             return <CheckInProgressPage {...props} />;
           }}
         />
-        <Route component={NoMatchPage} />
+        <Route component={NoMatchPage}/>
       </Switch>
     </Suspense>
   );

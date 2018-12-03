@@ -38,7 +38,9 @@ const styles = theme => ({
   logo: {
     width: 250,
     heading: 250,
-    objectFit: 'cover',
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     paddingBottom: '10px',
   },
   formControl: {

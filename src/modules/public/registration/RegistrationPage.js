@@ -2,6 +2,7 @@ import React, { Component } from 'react';
 import PropTypes from 'prop-types';
 import axios from 'axios';
 import styled from 'styled-components';
+import get from 'lodash.get';
 
 // Material UI
 import Snackbar from '@material-ui/core/Snackbar';
@@ -48,8 +49,9 @@ class RegistrationPage extends Component {
     snackbarMessage: '',
   };
 
-  componentWillUnmount() {
-    this.isTokenSource.cancel('API Cancel');
+  componentDidMount() {
+    console.log('!!!!', this.props);
+    this.setState(get(this.props, 'location.state.registration') || this.state);
   }
 
   onHandleChangeForm = event => {
@@ -71,33 +73,10 @@ class RegistrationPage extends Component {
     }
     try {
       if (form.needRetcHelp === DECLINE_RETS) {
-        history.push('/end');
+        history.push('/end', { registration: form });
+        return;
       }
-      this.setState({ isLoading: true });
-      const result = await AuthenticationAPI.onLogin({
-        company: form.company,
-        address: form.address,
-        phone: form.phone,
-        link: form.link,
-        contact: form.contact,
-        contactPhone: form.contactPhone,
-        contactEmail: form.contactEmail,
-        sector: form.sector,
-        // service: form.service,
-        brand: form.brand,
-        // products: form.products,
-        // countries: form.countries,
-        // revenue: form.revenue,
-        // employersCount: form.employersCount,
-        // exportPeriod: form.exportPeriod,
-        // needRetcHelp: form.needRetcHelp,
-      });
-      this.setState({ isLoading: false });
-      APP_TOKEN.set({
-        token: result,
-        refreshToken: '',
-      });
-      history.push('/questionnaire');
+      history.push('/questionnaire', { registration: form });
     } catch (error) {
       if (axios.isCancel(error)) {
         // console.log('Request canceled', error.message);
@@ -131,7 +110,10 @@ class RegistrationPage extends Component {
         />
 
         <Snackbar
-          anchorOrigin={{ vertical: 'bottom', horizontal: 'left' }}
+          anchorOrigin={{
+            vertical: 'bottom',
+            horizontal: 'left',
+          }}
           open={isSnackbarOpen}
           autoHideDuration={6000}
           onClose={this.onToggleSnackbar}

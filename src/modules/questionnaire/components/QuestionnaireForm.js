@@ -6,7 +6,6 @@ import FormControlLabel from '@material-ui/core/FormControlLabel';
 import FormControl from '@material-ui/core/FormControl';
 import FormLabel from '@material-ui/core/FormLabel';
 import Button from '@material-ui/core/Button';
-import CircularProgress from '@material-ui/core/CircularProgress';
 import Typography from '@material-ui/core/Typography';
 
 const styles = theme => ({
@@ -23,7 +22,9 @@ const styles = theme => ({
   logo: {
     width: 250,
     heading: 250,
-    objectFit: 'cover',
+    display: 'block',
+    marginLeft: 'auto',
+    marginRight: 'auto',
     paddingBottom: '10px',
   },
   formControl: {

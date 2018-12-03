@@ -11,24 +11,29 @@ app.use('/', express.static(path.join(__dirname, '..', 'dist')));
 app.use('/dist', express.static(path.join(__dirname, '..', 'dist')));
 app.use(
   '/start-process',
-  proxy('http://localhost:9977', {
+  proxy(process.env.FLOWABLE_URL || 'http://localhost:9977', {
     proxyReqOptDecorator(proxyReqOpts, srcReq) {
+      const userName = process.env.FLOWABLE_ADMIN || 'rest-admin';
+      const password = process.env.FLOWABLE_ADMIN_PASSWORD || 'test';
       proxyReqOpts.headers['Content-Type'] = 'application/json';
+      proxyReqOpts.headers.Authorization = `Basic ${Buffer.from(`${userName}:${password}`).toString(
+        'base64',
+      )}`;
       // proxyReqOpts.method = 'GET';
+      console.log('!!!!!proxyReqOpts', proxyReqOpts);
       return proxyReqOpts;
     },
     proxyReqBodyDecorator(bodyContent, srcReq) {
-      const processDefinitionId =
-        process.env.PROCESS_DEFINITION_ID || 'myProcess:1:5003dac3-f479-11e8-8c65-0242ac130003';
+      const processDefinitionKey = process.env.PROCESS_DEFINITION_ID || 'acceleratorProcess';
       const body = JSON.parse(bodyContent.toString());
       const variables = Object.entries(body).map(([key, value]) => ({
         name: key,
-        type: 'string',
+        // type: 'string',
         value,
-        scope: 'global',
+        // scope: 'global',
       }));
       const reqContent = {
-        processDefinitionId,
+        processDefinitionKey,
         businessKey: 'rets',
         returnVariables: true,
         variables,
