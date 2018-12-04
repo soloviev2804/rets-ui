@@ -20,10 +20,12 @@ app.use(
         'base64',
       )}`;
       // proxyReqOpts.method = 'GET';
-      console.log('!!!!!proxyReqOpts', proxyReqOpts);
       return proxyReqOpts;
     },
     proxyReqBodyDecorator(bodyContent, srcReq) {
+      if (srcReq.method === 'GET') {
+        return bodyContent;
+      }
       const processDefinitionKey = process.env.PROCESS_DEFINITION_ID || 'acceleratorProcess';
       const body = JSON.parse(bodyContent.toString());
       const variables = Object.entries(body).map(([key, value]) => ({

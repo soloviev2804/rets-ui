@@ -1,5 +1,6 @@
 import { withStyles } from '@material-ui/core';
-import React, { Fragment } from 'react';
+import React, { Component, Fragment } from 'react';
+import get from 'lodash.get';
 import Radio from '@material-ui/core/Radio';
 import RadioGroup from '@material-ui/core/RadioGroup';
 import FormControlLabel from '@material-ui/core/FormControlLabel';
@@ -12,6 +13,7 @@ import Typography from '@material-ui/core/Typography';
 import MenuItem from '@material-ui/core/MenuItem';
 import TextField from '@material-ui/core/TextField';
 import moment from 'moment';
+import AuthenticationAPI from '../../api/AuthenticationAPI';
 
 const Container = styled.section`
   display: flex;
@@ -53,33 +55,62 @@ const styles = theme => ({
   },
 });
 
-const CheckInProgressPage = ({ classes }) => {
-  return (
-    <Container>
-      <Fragment>
-        <img src="/images/logo.png" alt="app logo" className={classes.logo} />
-      </Fragment>
-      <form className={classes.container}>
-        <Typography variant="subtitle1">Ожидайте решение клиентского менеджера</Typography>
-        <TextField
-          id="outlined-read-only-input"
-          label="Вы заполнили анкету"
-          defaultValue={moment().format('DD.MM.YYYY')}
-          className={classes.textField}
-          margin="normal"
-          InputProps={{
-            readOnly: true,
-          }}
-          variant="outlined"
-          fullWidth
-        />
-        <Typography color={'textSecondary'}>
-          Клиентский менеджер проведёт оценку результатов Вашего анкетирования в срок не более 5
-          рабочих дней
-        </Typography>
-      </form>
-    </Container>
-  );
-};
+class CheckInProgressPage extends Component {
+
+  componentDidMount() {
+    this.timer = setInterval(() => this.getApprovalState(), 3000);
+  }
+
+  componentWillUnmount() {
+    clearInterval(this.timer);
+  }
+
+  async getApprovalState() {
+    const { history } = this.props;
+    console.log('this.props ', this.props);
+    const processInstanceId = get(this.props, 'location.state.process.id', '');
+    const result = await AuthenticationAPI.onCheckRequest(processInstanceId);
+    if (get(result, 'total') === 1) {
+      const approved = 'Approve' === get(result, 'data[0].variable.value');
+      if (approved) {
+        history.push('/roadmap');
+      } else if (approved === false) {
+        history.push('/end');
+      }
+    }
+  }
+
+  render() {
+    const { classes } = this.props;
+    return (
+      <Container>
+        <Fragment>
+          <img src="/images/logo.png" alt="app logo" className={classes.logo}/>
+        </Fragment>
+        <form className={classes.container}>
+          <Typography variant="subtitle1">Ожидайте решение клиентского менеджера</Typography>
+          <TextField
+            id="outlined-read-only-input"
+            label="Вы заполнили анкету"
+            defaultValue={moment()
+              .format('DD.MM.YYYY')}
+            className={classes.textField}
+            margin="normal"
+            InputProps={{
+              readOnly: true,
+            }}
+            variant="outlined"
+            fullWidth
+          />
+          <Typography color="textSecondary">
+            Клиентский менеджер проведёт оценку результатов Вашего анкетирования в срок не более 5
+            рабочих дней
+          </Typography>
+        </form>
+      </Container>
+    );
+  }
+
+}
 
 export default withStyles(styles)(CheckInProgressPage);

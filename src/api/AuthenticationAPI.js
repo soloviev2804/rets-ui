@@ -23,31 +23,13 @@ export default {
       throw error;
     }
   },
-  onValidate: async ({ cancelToken, accessToken }) => {
-    const URL = `${c.API_CONSUMER}/something`;
+  onCheckRequest: async processInstanceId => {
+    const URL = `${c.API_URL}/flowable-rest/service/history/historic-variable-instances?processInstanceId=${processInstanceId}&variableName=form_acceleratorManagerApproval_outcome`;
     try {
       const { data } = await axios(URL, {
         method: 'GET',
-        headers: {
-          access_token: accessToken,
-        },
-        cancelToken,
+        headers: {},
       });
-      return data;
-    } catch (error) {
-      throw error;
-    }
-  },
-  onRefresh: async ({ cancelToken, ...payload }) => {
-    const URL = `${c.API_CONSUMER}/something`;
-    try {
-      const { data } = await axios(
-        URL,
-        Object.assign({}, PARAMS({ methodType: 'POST' }), {
-          cancelToken,
-          data: payload,
-        }),
-      );
       return data;
     } catch (error) {
       throw error;

@@ -44,7 +44,7 @@ class QuestionnairePage extends Component {
       profileCustomerBase: questionnaire.q2,
     });
     console.log('result', result);
-    // history.push('/success', { process: result });
+    history.push('/check-in-progress', { process: result });
   };
 
   render() {

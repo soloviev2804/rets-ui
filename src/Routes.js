@@ -11,6 +11,7 @@ import CheckInProgressPage from './modules/check-in-progress/CheckInProgressPage
 
 // Routes
 const QuestionnairePage = lazy(() => import('./modules/questionnaire/QuestionnairePage'));
+const RoadmapPage = lazy(() => import('./modules/roadmap/RoadmapPage'));
 const LoginPage = lazy(() => import('./modules/public/registration/RegistrationPage'));
 const NoMatchPage = lazy(() => import('./modules/not-found/NoMatchPage'));
 
@@ -43,6 +44,12 @@ const Routes = () => {
           path="/check-in-progress"
           render={props => {
             return <CheckInProgressPage {...props} />;
+          }}
+        />
+        <Route
+          path="/roadmap"
+          render={props => {
+            return <RoadmapPage {...props} />;
           }}
         />
         <Route component={NoMatchPage}/>
