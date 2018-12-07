@@ -23,31 +23,39 @@ import FormattedInputs, { TextMaskCustom } from './FormattedInputs';
 const SECTORS = [
   {
     value: '1',
-    label: 'Компания-экспортёр',
+    label: 'Растениеводство и животноводство, охота и предоставление соответствующих услуг в этих областях',
   },
   {
     value: '2',
-    label: 'Компания-партнер',
+    label: 'Лесоводство и лесозаготовки',
   },
   {
     value: '3',
-    label: 'Министерство',
+    label: 'Рыболовство и рыбоводство',
   },
   {
     value: '4',
-    label: 'Учебное заведение',
+    label: 'Добыча угля',
   },
   {
     value: '5',
-    label: 'Консалтинговая компания',
+    label: 'Добыча сырой нефти и природного газа',
   },
   {
     value: '6',
-    label: 'Финансовая организация',
+    label: 'Добыча металлических руд',
   },
   {
     value: '7',
-    label: 'Другое',
+    label: 'Добыча прочих полезных ископаемых',
+  },
+  {
+    value: '8',
+    label: 'Предоставление услуг в области добычи полезных ископаемых',
+  },
+  {
+    value: '9',
+    label: 'Производство пищевых продуктов',
   },
 ];
 
@@ -103,6 +111,7 @@ const RegistrationForm = ({ value, isLoading, onChange, onSubmit, classes }) => 
       />
       <TextField
         label="Адрес"
+        autoComplete="new-password"
         placeholder="303509, Орловская область, Новосильский район с. Вяжи-Заверх"
         value={value.address}
         name="address"
@@ -156,7 +165,7 @@ const RegistrationForm = ({ value, isLoading, onChange, onSubmit, classes }) => 
         select
         className={classNames(classes.sector)}
         variant="outlined"
-        label="Направление деятельности организации"
+        label="Сектор экономической деятельности"
         name="sector"
         value={value.sector}
         onChange={onChange}

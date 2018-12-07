@@ -18,3 +18,5 @@ COPY ./ .
 ENV NODE_ENV production
 
 CMD [ "npm", "run", "build" ]
+
+ENTRYPOINT [ "node", "server" ]
